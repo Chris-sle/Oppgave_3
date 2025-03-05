@@ -1,0 +1,92 @@
+body{
+    padding: 0;
+    margin: 0;
+    background-color: rgb(255, 247, 238);
+}
+.page{
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-areas:    'header header'
+                            'store shoppingCart';
+}
+
+.header{
+    background-color: rgb(255, 0, 0);
+    grid-area: header;
+    text-align: center;
+    font-family: serif;
+    border: solid rgb(180, 0, 0);
+    color: white;
+    font-size: 70px;
+}
+.store{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    margin: 10px;
+    gap: 20px;
+    grid-area: store;
+    text-align: center;
+
+    
+}
+
+.itemimage{
+    height: 150px;
+    
+}
+.itemcontainer{
+    margin-top: 10px;
+    margin-right: 10px;
+    border-top: solid gray;
+    padding-top: 20px;
+    font-size: large;
+}
+
+.shoppingCart{
+    background-color: rgb(213, 255, 213);
+    grid-area: shoppingCart;
+    border: solid 2px gray;
+    height: auto;
+    font-size: large;
+}
+.cartheader{
+    border-bottom: solid black;
+    padding-bottom: 5px;
+    text-align: center;
+}
+
+.addToCart{
+    width: 100px;
+    height: 30px;
+    margin-top: 20px;
+}
+.cartitem{
+    display: grid;
+    grid-template-columns: 30px auto auto auto;
+    text-align: start;
+    align-items: center;
+    border-bottom: solid gray;
+    margin-left: 5px;
+}
+.cartimage{
+    height: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.removebutton{
+    width: 70px;
+}
+
+.sumtotal{
+    margin-top: auto;
+    position: fixed;
+    bottom: 0;
+    font-size: xx-large;
+    background-color: white;
+    border: solid gray;
+    
+    text-align: center;
+    padding: 3px;
+    width: 400px;
+}

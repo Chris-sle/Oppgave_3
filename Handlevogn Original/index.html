@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handlevogn</title>
+    <link rel="stylesheet" href="style.css"/>
+    
+</head>
+<body>
+    <div id="app"></div>
+
+    <script>
+        const app = document.getElementById('app');
+        
+        var store = [
+        {
+            item: 'Milk',
+            price: 29.9,
+            stock: 15,
+            image: 'img/milk.png',
+            cart: 0,
+        },
+        {
+            item: 'Cereal',
+            price: 19.9,
+            stock: 10,
+            image: 'img/cereal.png',
+            cart: 0,
+        },{
+            item: 'Chocolate',
+            price: 39.9,
+            stock: 8,
+            image: 'img/chocolate.png',
+            cart: 0,
+        },{
+            item: 'Friend',
+            price: 10000,
+            stock: 0,
+            image: 'img/friend.png',
+            cart: 0,
+        },{
+            item: 'Broccoli',
+            price: 17.9,
+            stock: 10,
+            image: 'img/broccoli.png',
+            cart: 0,
+        },{
+            item: 'Coca-Cola',
+            price: 24.9,
+            stock: 24,
+            image: 'img/cola.png',
+            cart: 0,
+        },{
+            item: 'Tomato',
+            price: 12.9,
+            stock: 13,
+            image: 'img/tomato.png',
+            cart: 0,
+        },{
+            item: 'Heinz baked beans',
+            price: 23.9,
+            stock: 9,
+            image: 'img/beans.png',
+            cart: 0,
+        },{
+            item: 'Eggs',
+            price: 49.9,
+            stock: 8,
+            image: 'img/eggs.png',
+            cart: 0,
+        },{
+            item: 'Potato',
+            price: 20.9,
+            stock: 50,
+            image: 'img/potato.png',
+            cart: 0,
+        },{
+            item: 'Pringles original',
+            price: 29.9,
+            stock: 10,
+            image: 'img/pringles.png',
+            cart: 0,
+        },{
+            item: 'Campbells Tomato soup',
+            price: 39.9,
+            stock: 1,
+            image: 'img/tomatosoup.png',
+            cart: 0,
+      
+        }, ]
+        var shoppingCart = []
+        let sumtotal = 0
+        var itemincart = false
+        var editamount = false
+
+        updateview()
+        function updateview(){
+            app.innerHTML = /*HTML*/`
+
+            <div class="page">
+            <h1 class="header">OKMart</h1>
+
+            <div class="store">
+                ${createstore()}
+                </div>
+
+            <div class="shoppingCart">
+                <h2 class="cartheader">Shopping Cart</h2>
+                    ${updateCart()}
+                    <div class="sumtotal">Totalt å betale: ${sumtotal.toFixed(2)} kr</div>
+           </div>
+                
+            
+            </div>
+            `;
+        }
+
+        function createstore(){
+            let html = ''
+            for( let i = 0; i < store.length; i++){
+                html +=     `<div class="itemcontainer">
+                                <div>${store[i].item}</div>
+                                <img class="itemimage" src="${store[i].image}">            
+                                <div>${store[i].price} kr</div>
+                                <div>${store[i].stock} left in stock</div>
+                                <button class="addToCart" onclick="addToCart(${i})">Add to cart</button>
+                                </div>
+                                `;
+            }
+            return html
+        }
+
+        function addToCart(i){
+            if(store[i].stock > 0){
+                
+                if(0 < store[i].cart){
+                    itemincart = true
+                }
+                
+                    if(itemincart == false){
+                        shoppingCart.push(store[i]);
+                        store[i].stock --
+                        store[i].cart ++
+                        sumtotal = sumtotal + store[i].price;
+                    }
+                    else if(itemincart == true){
+                        
+                        store[i].stock --
+                        store[i].cart ++
+                        sumtotal = sumtotal + store[i].price;
+                    }
+                    itemincart = false
+
+                }
+                else{
+                    alert('Item out of stock')
+                }
+                
+            updateview()
+        }
+
+        function removeFromCart(i){
+                itemtotal = shoppingCart[i].price * shoppingCart[i].cart
+                sumtotal = sumtotal - itemtotal
+                shoppingCart.splice(i, 1)
+           
+            updateview()
+        }
+        
+        function createamount(i){
+            var cartamount = shoppingCart[i].cart
+            if(editamount == false){
+                return `<div onclick="startedit()">${shoppingCart[i].cart}x</div>`;
+            }
+            else{
+                return `<input type="number" id="editamount${i}" onchange="changeamount(${i})" 
+                value="${shoppingCart[i].cart}">`;
+            }
+        }
+
+        
+        function startedit(){
+            editamount = true
+            updateview()
+        }
+
+        function endedit(){
+            editamount = false
+            updateview()
+        }
+
+        function changeamount(i){
+            const inputamount = document.getElementById(`editamount${i}`)
+            inputvariance = inputamount - shoppingCart[i].cart
+            parseInt(inputvariance)
+            pricevariance = inputvariance * shoppingCart[i].cart
+            shoppingCart[i].cart = inputamount.value;
+
+            console.log(inputvariance)
+            if(shoppingCart[i].cart == 0){
+                removeFromCart(i)
+            }
+            
+            updateview()
+        }
+        
+        function createeditbutton(i){
+            if(editamount == false){
+                return `<button class="removebutton" onclick="removeFromCart(${i})">Remove</button>`;
+            }
+            else{
+                return `<button class="removebutton" onclick="endedit()">Confirm</button>`;
+            }
+        }
+
+         function updateCart(){  
+            let itemsincart ="";
+            if(shoppingCart.length <= 0){
+                itemsincart = "Empty Cart, buy somth"
+            }
+            else{
+                for(let i = 0; i < shoppingCart.length; i++){
+                    itemsincart += `<div class="cartitem">
+                        ${createamount(i)}
+                        <div>${shoppingCart[i].item}</div>
+                        <img class="cartimage "src="${shoppingCart[i].image}">
+                        ${createeditbutton(i)}
+                    </div>
+                    `;
+                    }
+            }
+            
+             return itemsincart
+        }
+    </script>
+
+</body>
+</html>
